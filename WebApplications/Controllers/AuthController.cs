@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplications.Application.DTOs;
 using WebApplications.Domain.Models;
 using WebApplications.Infrastructure.Helpers;
-using WebApplications.Infrastructure.Presistance;
 
 namespace WebApplications.Controllers
 {
@@ -15,20 +14,17 @@ namespace WebApplications.Controllers
         private readonly RoleManager<Roles> _roleManager;
         private readonly SignInManager<Users> _signInManager;
         private readonly JwtHelper _jwtHelper;
-        private readonly AppDbContext _context;
 
         public AuthController(
             UserManager<Users> userManager,
             RoleManager<Roles> roleManager,
             SignInManager<Users> signInManager,
-            JwtHelper jwtHelper,
-            AppDbContext context)
+            JwtHelper jwtHelper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _jwtHelper = jwtHelper;
-            _context = context;
         }
 
         [HttpPost("register")]
@@ -63,7 +59,9 @@ namespace WebApplications.Controllers
             var result = await _userManager.CreateAsync(user, dto.Password);
 
             if (!result.Succeeded)
+            {
                 return BadRequest(result.Errors);
+            }
 
             if (!await _roleManager.RoleExistsAsync(dto.Role))
             {
@@ -74,20 +72,6 @@ namespace WebApplications.Controllers
             }
 
             await _userManager.AddToRoleAsync(user, dto.Role);
-
-            if (dto.Role == "Customer")
-            {
-                var customer = new Customer
-                {
-                    UserId = user.Id,
-                    FullName = dto.FullName,
-                    Email = dto.Email,
-                    Phone = dto.Phone ?? ""
-                };
-
-                _context.Customers.Add(customer);
-                await _context.SaveChangesAsync();
-            }
 
             return Ok(new
             {

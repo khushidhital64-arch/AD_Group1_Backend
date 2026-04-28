@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,6 +30,8 @@ namespace WebApplications.Application.Middlewares
                     await httpContext.Response.WriteAsync(JsonSerializer.Serialize(new
                     {
                         message = "internal server error",
+                        error = ex.Message,
+                        stackTrace = ex.StackTrace,
                         statusCode = 500
                     }));
                 }

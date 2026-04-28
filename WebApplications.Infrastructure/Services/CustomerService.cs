@@ -33,30 +33,5 @@ namespace WebApplications.Infrastructure.Services
         {
             return _customerRepository.RegisterCustomerWithVehicleAsync(dto);
         }
-
-        public Task<object> SearchCustomersAsync(string query)
-        {
-            return _customerRepository.SearchCustomersAsync(query);
-        }
-
-        public Task<object?> GetMyProfileAsync(long userId)
-        {
-            return _customerRepository.GetMyProfileAsync(userId);
-        }
-
-        public Task<object?> UpdateMyProfileAsync(long userId, UpdateCustomerProfileDto dto)
-        {
-            return _customerRepository.UpdateMyProfileAsync(userId, dto);
-        }
-
-        public Task<Vehicle> AddMyVehicleAsync(long userId, VehicleDto dto)
-        {
-            return _customerRepository.AddMyVehicleAsync(userId, dto);
-        }
-
-        public Task<Vehicle?> UpdateMyVehicleAsync(long userId, long vehicleId, VehicleDto dto)
-        {
-            return _customerRepository.UpdateMyVehicleAsync(userId, vehicleId, dto);
-        }
     }
 }

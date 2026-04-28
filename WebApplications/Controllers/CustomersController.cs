@@ -40,16 +40,5 @@ namespace WebApplications.Controllers
                 customer.Email
             });
         }
-
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchCustomers([FromQuery] string query)
-        {
-            if (string.IsNullOrWhiteSpace(query))
-                return BadRequest(new { message = "Search query is required." });
-
-            var customers = await _customerService.SearchCustomersAsync(query);
-
-            return Ok(customers);
-        }
     }
 }

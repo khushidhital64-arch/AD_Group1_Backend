@@ -18,8 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Controllers + Swagger
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// OpenAPI
+builder.Services.AddOpenApi();
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -28,7 +28,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-
 
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
@@ -45,13 +44,7 @@ builder.Services.AddScoped<ICustomerHistoryService, CustomerHistoryService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
-builder.Services.AddScoped<IVendorRepository, VendorRepository>();
-builder.Services.AddScoped<IVendorService, VendorService>();
-
-builder.Services.AddScoped<ISalesInvoiceRepository, SalesInvoiceRepository>();
-builder.Services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
-
-builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
 
 // Identity
 builder.Services.AddIdentity<Users, Roles>(options =>
@@ -112,8 +105,7 @@ app.UseCors("AllowFrontend");
 // Exception Middleware
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.MapOpenApi();
 
 
 // Pipeline

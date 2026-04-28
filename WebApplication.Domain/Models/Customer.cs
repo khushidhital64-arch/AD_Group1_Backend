@@ -4,8 +4,8 @@ namespace WebApplications.Domain.Models
     {
         public long Id { get; set; }
 
-        public long? UserId { get; set; }
-        public Users? User { get; set; }
+        public long UserId { get; set; }
+        public Users User { get; set; } = null!;
 
         public string FullName { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
