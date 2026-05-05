@@ -52,4 +52,15 @@ namespace WebApplications.Controllers
             return Ok(customers);
         }
     }
+    [HttpGet("search1")]
+        public async Task<IActionResult> SearchCustomer([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest(new { message = "Search query is required." });
+
+            var customers = await _customerService.SearchCustomersAsync(query);
+
+            return Ok(customers);
+        }
+    }
 }
